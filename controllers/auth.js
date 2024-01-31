@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import { validationResult } from "express-validator";
 
 export const checkAuth = async (req, res) => {
   try {
@@ -24,6 +25,13 @@ export const checkAuth = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const findUser = await User.findOne({ email: req.body.email });
 
@@ -63,6 +71,13 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const findUser = await User.findOne({ email: req.body.email });
 
@@ -117,6 +132,13 @@ export const logoutUser = (req, res) => {
 };
 
 export const googleLogin = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const googleToken = req.body.token;
     const response = await fetch(

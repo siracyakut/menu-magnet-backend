@@ -1,6 +1,14 @@
 import Menu from "../models/menu.js";
+import { validationResult } from "express-validator";
 
 export const getMenus = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const menus = await Menu.find({ businessId: req.body.businessId });
 
@@ -15,6 +23,13 @@ export const getMenus = async (req, res) => {
 };
 
 export const createMenu = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const newMenu = new Menu({
       name: req.body.name.trim(),
@@ -39,6 +54,13 @@ export const createMenu = async (req, res) => {
 };
 
 export const updateMenu = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const targetMenu = await Menu.findById(req.body.id);
 
@@ -65,6 +87,13 @@ export const updateMenu = async (req, res) => {
 };
 
 export const deleteMenu = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const targetMenu = await Menu.findById(req.body.id);
 

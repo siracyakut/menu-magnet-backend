@@ -1,7 +1,15 @@
 import Category from "../models/category.js";
 import Menu from "../models/menu.js";
+import { validationResult } from "express-validator";
 
 export const getCategories = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const categories = await Category.find({ businessId: req.body.businessId });
 
@@ -16,6 +24,13 @@ export const getCategories = async (req, res) => {
 };
 
 export const createCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const findCategory = await Category.findOne({
       name: req.body.name.trim(),
@@ -50,6 +65,13 @@ export const createCategory = async (req, res) => {
 };
 
 export const updateCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const targetCategory = await Category.findById(req.body.id);
 
@@ -90,6 +112,13 @@ export const updateCategory = async (req, res) => {
 };
 
 export const deleteCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const targetCategory = await Category.findById(req.body.id);
 

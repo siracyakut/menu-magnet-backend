@@ -9,6 +9,7 @@ import businessRoutes from "./routes/business.js";
 import categoryRoutes from "./routes/category.js";
 import menuRoutes from "./routes/menu.js";
 import statsRoutes from "./routes/stats.js";
+import ticketRoutes from "./routes/ticket.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/business", businessRoutes);
 app.use("/category", categoryRoutes);
 app.use("/menu", menuRoutes);
 app.use("/stats", statsRoutes);
+app.use("/ticket", ticketRoutes);
 
 app.get("/", (req, res) =>
   res.status(200).json({ success: true, data: "API is OK." }),

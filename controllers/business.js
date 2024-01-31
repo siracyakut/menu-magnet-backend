@@ -2,8 +2,16 @@ import Business from "../models/business.js";
 import { getSlug } from "../utils/slug.js";
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
 
 export const getBusinessInfo = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     let business;
 
@@ -24,6 +32,13 @@ export const getBusinessInfo = async (req, res) => {
 };
 
 export const createBusiness = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     const slug = getSlug(req.body.business);
     const findBusiness = await Business.findOne({ slug });
@@ -66,6 +81,13 @@ export const createBusiness = async (req, res) => {
 };
 
 export const updateBusiness = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ success: false, data: errors.array()[0].msg });
+  }
+
   try {
     if (req.body.business) {
       const slug = getSlug(req.body.business);
