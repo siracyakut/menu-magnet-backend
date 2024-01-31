@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   "/info",
-  [body("id").isString().optional(), body("slug").isNumeric().optional()],
+  [body("id").isString().optional(), body("slug").isString().optional()],
   getBusinessInfo,
 );
 router.post(
